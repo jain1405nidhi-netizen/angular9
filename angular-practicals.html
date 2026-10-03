@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Angular Practical Codes</title>
+</head>
+
+<body>
+
+<h1>Angular Practical Codes</h1>
+
+<button onclick="showCode(2)">Practical 2</button>
+<button onclick="showCode(3)">Practical 3</button>
+<button onclick="showCode(4)">Practical 4</button>
+<button onclick="showCode(5)">Practical 5</button>
+<button onclick="showCode(6)">Practical 6</button>
+<button onclick="showCode(7)">Practical 7</button>
+<button onclick="showCode(8)">Practical 8</button>
+<button onclick="showCode(9)">Practical 9</button>
+
+<hr>
+
+<pre id="code">Click a Practical</pre>
+
+<script>
+
+function showCode(n) {
+
+if (n == 2) {
+document.getElementById("code").textContent = `
+
+PRACTICAL 2
+COMPONENTS AND DATA BINDING
+
+
+A) Generate Components
+
+ng g c parent
+ng g c child
+
+
+B) Data Binding
+
+parent.html
+
+<h2>Parent Component</h2>
+
+<p>{{ name }}</p>
+
+<input [value]="name">
+
+<button (click)="changeName()">Change Name</button>
+
+<input [(ngModel)]="name">
+
+
+parent.ts
+
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Child } from '../child/child';
+
+@Component({
+  selector: 'app-parent',
+  imports: [FormsModule, Child],
+  templateUrl: './parent.html'
+})
+export class Parent {
+
+  name = 'Nidhi';
+
+  changeName() {
+    this.name = 'Divya';
+  }
+
+  showMessage(msg: string) {
+    alert(msg);
+  }
+}
+
+
+C) Parent Child Interaction
+
+parent.html
+
+<app-child
+  [name]="name"
+  (msg)="showMessage($event)">
+</app-child>
+
+
+child.ts
+
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+
+@Component({
+  selector: 'app-child',
+  imports: [],
+  templateUrl: './child.html'
+})
+export class Child {
+
+  @Input() name = '';
+
+  @Output() msg = new EventEmitter<string>();
+
+  send() {
+    this.msg.emit('Hello Parent!');
+  }
+}
+
+
+child.html
+
+<h3>Child Component</h3>
+
+<p>Name: {{ name }}</p>
+
+<button (click)="send()">Send Message</button>
+
+
+app.ts
+
+import { Component } from '@angular/core';
+import { Parent } from './parent/parent';
+
+@Component({
+  selector: 'app-root',
+  imports: [Parent],
+  templateUrl: './app.html'
+})
+export class App {}
+
+
+app.html
+
+<app-parent></app-parent>
+
+`;
+}
+
+
+if (n == 3) {
+document.getElementById("code").textContent = `
+
+PRACTICAL 3
+DIRECTIVES AND DYNAMIC UI
+
+
+A) Structural Directives
+
+app.html
+
+<h2>Student List</h2>
+
+<p *ngIf="show">Students are available</p>
+
+<div *ngFor="let student of students">
+    {{ student }}
+</div>
+
+
+app.ts
+
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'app-root',
+  imports: [CommonModule],
+  templateUrl: './app.html'
+})
+export class App {
+
+  show = true;
+
+  students = ['Nidhi', 'Rahul', 'Amit'];
+
+}
+
+
+B) Attribute Directives
+
+app.html
+
+<p [ngClass]="active ? 'active' : 'inactive'">
+    Student Status
+</p>
+
+<p [ngStyle]="{'color': active ? 'green' : 'red'}">
+    Status
+</p>
+
+
+app.ts
+
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'app-root',
+  imports: [CommonModule],
+  templateUrl: './app.html'
+})
+export class App {
+
+  active = true;
+
+}
+
+
+C) Dynamic UI
+
+app.html
+
+<button (click)="change()">Change</button>
+
+<p *ngIf="active">
+    Welcome Student
+</p>
+
+
+app.ts
+
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'app-root',
+  imports: [CommonModule],
+  templateUrl: './app.html'
+})
+export class App {
+
+  active = false;
+
+  change() {
+    this.active = !this.active;
+  }
+
+}
+
+`;
+}
+
+
+if (n == 4) {
+document.getElementById("code").textContent = `
+
+PRACTICAL 4
+BOOTSTRAP AND RESPONSIVE LAYOUT
+
+
+A) Integrate Bootstrap
+
+npm install bootstrap
+
+
+angular.json
+
+"styles": [
+  "node_modules/bootstrap/dist/css/bootstrap.min.css",
+  "src/styles.css"
+]
+
+
+B) Bootstrap Classes
+
+app.html
+
+<div class="container">
+
+  <h2 class="text-center">Student Details</h2>
+
+  <button class="btn btn-primary">
+    Submit
+  </button>
+
+</div>
+
+
+C) Responsive Layout
+
+app.html
+
+<div class="container">
+
+  <div class="row">
+
+    <div class="col-md-4">
+      <h3>Student</h3>
+    </div>
+
+    <div class="col-md-4">
+      <h3>Course</h3>
+    </div>
+
+    <div class="col-md-4">
+      <h3>College</h3>
+    </div>
+
+  </div>
+
+</div>
+
+`;
+}
+
+
+if (n == 5) {
+document.getElementById("code").textContent = `
+
+PRACTICAL 5
+ROUTING AND NAVIGATION
+
+
+A) Configure Routing
+
+app.routes.ts
+
+import { Routes } from '@angular/router';
+import { Home } from './home/home';
+import { About } from './about/about';
+
+export const routes: Routes = [
+  { path: '', component: Home },
+  { path: 'about', component: About }
+];
+
+
+app.html
+
+<a routerLink="/">Home</a>
+<a routerLink="/about">About</a>
+
+<router-outlet></router-outlet>
+
+
+B) Route Parameters
+
+app.routes.ts
+
+import { Routes } from '@angular/router';
+import { Student } from './student/student';
+
+export const routes: Routes = [
+  { path: 'student/:id', component: Student }
+];
+
+
+student.ts
+
+import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+
+@Component({
+  selector: 'app-student',
+  imports: [],
+  templateUrl: './student.html'
+})
+export class Student {
+
+  id = '';
+
+  constructor(private route: ActivatedRoute) {
+    this.id = this.route.snapshot.paramMap.get('id') || '';
+  }
+
+}
+
+
+student.html
+
+<h2>Student ID: {{ id }}</h2>
+
+
+C) Router Link and Programmatic Navigation
+
+app.html
+
+<a routerLink="/about">About</a>
+
+<button (click)="goToAbout()">
+    Go to About
+</button>
+
+
+app.ts
+
+import { Component } from '@angular/core';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
+
+@Component({
+  selector: 'app-root',
+  imports: [RouterLink, RouterOutlet],
+  templateUrl: './app.html'
+})
+export class App {
+
+  constructor(private router: Router) {}
+
+  goToAbout() {
+    this.router.navigate(['/about']);
+  }
+
+}
+
+`;
+}
+
+
+if (n == 6) {
+document.getElementById("code").textContent = `
+
+PRACTICAL 6
+SERVICES AND DATA SHARING
+
+
+A) Create a Service
+
+ng g s data
+
+
+data.service.ts
+
+import { Injectable } from '@angular/core';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class DataService {
+
+  name = 'Nidhi';
+
+}
+
+
+B) Inject Service into Two Components
+
+sender.ts
+
+import { Component } from '@angular/core';
+import { DataService } from '../data.service';
+
+@Component({
+  selector: 'app-sender',
+  imports: [],
+  templateUrl: './sender.html'
+})
+export class Sender {
+
+  constructor(public data: DataService) {}
+
+}
+
+
+receiver.ts
+
+import { Component } from '@angular/core';
+import { DataService } from '../data.service';
+
+@Component({
+  selector: 'app-receiver',
+  imports: [],
+  templateUrl: './receiver.html'
+})
+export class Receiver {
+
+  constructor(public data: DataService) {}
+
+}
+
+
+C) Share and Update Data
+
+sender.html
+
+<input [(ngModel)]="data.name">
+
+<p>{{ data.name }}</p>
+
+
+receiver.html
+
+<p>Name: {{ data.name }}</p>
+
+
+sender.ts
+
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { DataService } from '../data.service';
+
+@Component({
+  selector: 'app-sender',
+  imports: [FormsModule],
+  templateUrl: './sender.html'
+})
+export class Sender {
+
+  constructor(public data: DataService) {}
+
+}
+
+
+receiver.ts
+
+import { Component } from '@angular/core';
+import { DataService } from '../data.service';
+
+@Component({
+  selector: 'app-receiver',
+  imports: [],
+  templateUrl: './receiver.html'
+})
+export class Receiver {
+
+  constructor(public data: DataService) {}
+
+}
+
+`;
+}
+
+
+if (n == 7) {
+document.getElementById("code").textContent = `
+
+PRACTICAL 7
+TEMPLATE-DRIVEN FORMS
+
+
+A) Template-Driven Form
+
+app.html
+
+<form #form="ngForm">
+
+  <input
+    name="name"
+    ngModel
+    placeholder="Name">
+
+  <input
+    name="email"
+    ngModel
+    placeholder="Email">
+
+  <button type="submit">
+    Submit
+  </button>
+
+</form>
+
+
+app.ts
+
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+
+@Component({
+  selector: 'app-root',
+  imports: [FormsModule],
+  templateUrl: './app.html'
+})
+export class App {}
+
+
+B) Built-in Validation
+
+app.html
+
+<form #form="ngForm">
+
+  <input
+    name="name"
+    ngModel
+    required
+    minlength="3">
+
+  <input
+    name="email"
+    ngModel
+    required
+    email>
+
+  <button type="submit">
+    Submit
+  </button>
+
+</form>
+
+
+C) Display Error Messages
+
+app.html
+
+<form #form="ngForm">
+
+  <input
+    name="name"
+    ngModel
+    required
+    minlength="3"
+    #name="ngModel">
+
+  <p *ngIf="name.invalid && name.touched">
+    Name is required and must contain 3 characters.
+  </p>
+
+
+  <input
+    name="email"
+    ngModel
+    required
+    email
+    #email="ngModel">
+
+  <p *ngIf="email.invalid && email.touched">
+    Enter a valid email.
+  </p>
+
+  <button type="submit">
+    Submit
+  </button>
+
+</form>
+
+
+app.ts
+
+import { Component } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'app-root',
+  imports: [FormsModule, CommonModule],
+  templateUrl: './app.html'
+})
+export class App {}
+
+`;
+}
+
+
+if (n == 8) {
+document.getElementById("code").textContent = `
+
+PRACTICAL 8
+REACTIVE FORMS
+
+
+A) FormGroup and FormControl
+
+app.ts
+
+import { Component } from '@angular/core';
+import { FormGroup, FormControl, ReactiveFormsModule } from '@angular/forms';
+
+@Component({
+  selector: 'app-root',
+  imports: [ReactiveFormsModule],
+  templateUrl: './app.html'
+})
+export class App {
+
+  form = new FormGroup({
+    name: new FormControl(''),
+    email: new FormControl('')
+  });
+
+}
+
+
+app.html
+
+<form [formGroup]="form">
+
+  <input formControlName="name">
+
+  <input formControlName="email">
+
+  <button type="submit">
+    Submit
+  </button>
+
+</form>
+
+
+B) Built-in Validators
+
+app.ts
+
+import { Component } from '@angular/core';
+import {
+  FormGroup,
+  FormControl,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
+
+@Component({
+  selector: 'app-root',
+  imports: [ReactiveFormsModule],
+  templateUrl: './app.html'
+})
+export class App {
+
+  form = new FormGroup({
+
+    name: new FormControl(
+      '',
+      [Validators.required, Validators.minLength(3)]
+    ),
+
+    email: new FormControl(
+      '',
+      [Validators.required, Validators.email]
+    )
+
+  });
+
+}
+
+
+C) Custom Validator
+
+app.ts
+
+import { Component } from '@angular/core';
+import {
+  FormGroup,
+  FormControl,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
+
+@Component({
+  selector: 'app-root',
+  imports: [ReactiveFormsModule],
+  templateUrl: './app.html'
+})
+export class App {
+
+  form = new FormGroup({
+
+    name: new FormControl(
+      '',
+      [Validators.required, this.customValidator]
+    )
+
+  });
+
+  customValidator(control: FormControl) {
+
+    if (control.value == 'admin') {
+      return { invalidName: true };
+    }
+
+    return null;
+  }
+
+}
+
+
+app.html
+
+<form [formGroup]="form">
+
+  <input formControlName="name">
+
+  <p *ngIf="form.controls.name.hasError('invalidName')">
+    This name is not allowed.
+  </p>
+
+  <button type="submit">
+    Submit
+  </button>
+
+</form>
+
+`;
+}
+
+
+if (n == 9) {
+document.getElementById("code").textContent = `
+
+PRACTICAL 9
+REST API INTEGRATION
+
+
+A) Configure HttpClientModule
+
+app.ts
+
+import { Component } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+
+@Component({
+  selector: 'app-root',
+  imports: [HttpClientModule],
+  templateUrl: './app.html'
+})
+export class App {}
+
+
+B) Fetch Data from REST API
+
+student.service.ts
+
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class StudentService {
+
+  url = 'https://jsonplaceholder.typicode.com/users';
+
+  constructor(private http: HttpClient) {}
+
+  getStudents() {
+    return this.http.get(this.url);
+  }
+
+}
+
+
+C) Display API Data
+
+app.ts
+
+import { Component } from '@angular/core';
+import { StudentService } from './student.service';
+import { CommonModule } from '@angular/common';
+
+@Component({
+  selector: 'app-root',
+  imports: [CommonModule],
+  templateUrl: './app.html'
+})
+export class App {
+
+  students: any[] = [];
+
+  constructor(private service: StudentService) {
+
+    this.service.getStudents().subscribe(data => {
+      this.students = data as any[];
+    });
+
+  }
+
+}
+
+
+app.html
+
+<h2>Students</h2>
+
+<div *ngFor="let student of students">
+
+  <p>Name: {{ student.name }}</p>
+
+  <p>Email: {{ student.email }}</p>
+
+  <hr>
+
+</div>
+
+`;
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
